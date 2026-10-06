@@ -2,19 +2,24 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>守护美食 · 猫咪别偷吃！</title>
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { margin: 0; padding: 0; }
   body {
-    min-height: 100vh;
+    min-height: 100vh; min-height: 100dvh;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     background: radial-gradient(1200px 700px at 50% 0%, #3d2f4e 0%, #241c30 60%, #17121f 100%);
     font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
-    color: #f4ecdf; padding: 14px; user-select: none;
+    color: #f4ecdf; user-select: none; touch-action: manipulation; overscroll-behavior: none;
+    padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
   }
   #wrap { width: min(96vw, 980px); }
+  @supports (height: 100dvh) {
+    /* 依据可视高度约束宽度：竖屏手机全宽，横屏手机自动缩到一屏内不滚动 */
+    #wrap { width: min(96vw, 980px, calc((100dvh - 190px) * 1.6)); }
+  }
   #hud {
     display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;
   }
@@ -140,6 +145,41 @@
   #btnSwat, #btnEat { width: 108px; font-size: 17px; }
   #btnSwat { background: rgba(255,120,100,.2); border-color: rgba(255,140,120,.4); }
   #btnEat  { background: rgba(125,219,132,.18); border-color: rgba(140,230,150,.4); }
+
+  /* ---- 手机适配（iPhone / 安卓竖屏） ---- */
+  html { -webkit-text-size-adjust: 100%; }
+  @media (max-width: 700px) {
+    body { padding: 6px; }
+    #wrap { width: 100%; }
+    #hud { gap: 5px; margin-bottom: 6px; }
+    .chip { padding: 4px 9px; font-size: 12px; gap: 4px; }
+    .chip .bar { width: 70px; height: 9px; }
+    #muteBtn { padding: 4px 9px; font-size: 13px; }
+    canvas { border-radius: 10px; }
+    .overlay { padding: 10px; }
+    .panel h1 { font-size: 24px; }
+    .panel .sub { font-size: 13px; margin: 0 0 10px; }
+    .bigbtn { font-size: 16px; padding: 11px 26px; }
+    .bigbtn.small { font-size: 14px; padding: 10px 16px; }
+    .infobtn { font-size: 13px; padding: 8px 16px; margin: 0 auto 10px; }
+    .infohead h2 { font-size: 19px; }
+    .howto { font-size: 12px; padding: 8px 12px; line-height: 1.7; }
+    kbd { font-size: 11px; padding: 0 5px; }
+    .tip { font-size: 12px; }
+    .bestline { font-size: 13px; }
+    .btnrow2 { flex-wrap: wrap; }
+    .skincard { width: calc(50% - 8px); padding: 8px; }
+    .skincard span { font-size: 11px; }
+    .rcard { width: calc(50% - 8px); }
+    .shop { flex-wrap: wrap; text-align: center; }
+    .vtrophy { font-size: 44px; }
+    #controls { margin-top: 8px; gap: 8px; }
+    .ctl { font-size: 16px; padding: 15px 0; }
+    #btnL, #btnR { width: 58px; }
+    #btnSwat, #btnEat { width: 86px; font-size: 15px; }
+    .result .score { font-size: 24px; }
+    .result .row { font-size: 14px; line-height: 1.9; }
+  }
 </style>
 </head>
 <body>
@@ -818,7 +858,7 @@ function updateCats(dt){
         vx:rand(-15,15), vy:-30, g:0, life:.7, t:0, c:'#ff9ff3', r:2.2, star:true });
       if (c.playT <= 0) c.state = 'eat';
     } else if (c.state==='fed'){
-      c.fedT -= dt; // 埋头吃罐罐，这一轮不偷吃你的��
+      c.fedT -= dt; // 埋头吃罐罐，这一轮不偷吃你的饭
       if (Math.random() < dt*2) parts.push({
         x:c.x+rand(-18,18), y:c.y-c.T.h*2.3+rand(-8,4),
         vx:rand(-12,12), vy:-24, g:0, life:.6, t:0, c:'#e8a866', r:2 });
