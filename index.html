@@ -179,6 +179,21 @@
     #btnSwat, #btnEat { width: 86px; font-size: 15px; }
     .result .score { font-size: 24px; }
     .result .row { font-size: 14px; line-height: 1.9; }
+    /* 竖屏：游戏画面居上居中，操控按钮贴到底部，拇指好按 */
+    #wrap { margin-top: auto; margin-bottom: auto; }
+    #controls { padding-bottom: max(4px, env(safe-area-inset-bottom)); }
+  }
+  /* ---- 手机横屏：整局收进一屏，不滚动 ---- */
+  @media (orientation: landscape) and (max-height: 500px) {
+    #wrap { width: min(96vw, calc((100dvh - 165px) * 1.6)); }
+    #hud { gap: 4px; margin-bottom: 5px; }
+    .chip { padding: 3px 7px; font-size: 11px; gap: 3px; }
+    .chip .bar { width: 60px; height: 8px; }
+    #muteBtn { padding: 3px 7px; font-size: 12px; }
+    #controls { margin-top: 5px; gap: 6px; }
+    .ctl { font-size: 14px; padding: 10px 0; }
+    #btnL, #btnR { width: 52px; }
+    #btnSwat, #btnEat { width: 76px; font-size: 13px; }
   }
 </style>
 </head>
@@ -252,7 +267,7 @@
             <span>双马尾小姑娘，围裙配色（50 金币）<br>卖掉可换 1 只帮手猫</span>
             <div class="skinbtns">
               <button class="skinbtn try" data-try="girl">试穿</button>
-              <button class="skinbtn" data-skin="girl">50💰 购买</button>
+              <button class="skinbtn" data-skin="girl">50��� 购买</button>
               <button class="skinbtn sell" data-sell="girl">卖掉→🐱×1</button>
             </div>
           </div>
